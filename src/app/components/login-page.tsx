@@ -1,10 +1,12 @@
 import { useState } from "react";
 
-
 interface LoginPageProps {
   onSignUpClick: () => void;
   onLoginSubmit: () => void;
 }
+
+const inputClass =
+  "w-full rounded-xl px-4 py-3 outline-none text-sm bg-white/10 text-white placeholder-white/50 border border-white/20 focus:border-white/60 focus:bg-white/15 transition-all";
 
 export function LoginPage({ onSignUpClick, onLoginSubmit }: LoginPageProps) {
   const [username, setUsername] = useState("");
@@ -17,77 +19,86 @@ export function LoginPage({ onSignUpClick, onLoginSubmit }: LoginPageProps) {
   };
 
   return (
-    <div className="size-full flex items-center justify-center relative overflow-hidden" style={{ backgroundColor: '#d4d4e8' }}>
-      {/* Decorative curved lines */}
+    <div
+      className="min-h-screen w-full flex items-center justify-center relative overflow-hidden"
+      style={{ backgroundColor: "#d4d4e8" }}
+    >
+      {/* Decorative blobs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <svg className="absolute top-0 left-0 w-64 h-64 -translate-x-20 -translate-y-20" viewBox="0 0 200 200">
-          <path d="M 0,100 Q 50,50 100,100 T 200,100" fill="none" stroke="rgba(255,255,255,0.3)" strokeWidth="2" />
-        </svg>
-        <svg className="absolute bottom-0 left-0 w-96 h-96 -translate-x-32 translate-y-32" viewBox="0 0 200 200">
-          <circle cx="100" cy="100" r="80" fill="none" stroke="rgba(255,255,255,0.2)" strokeWidth="2" />
-        </svg>
+        <div
+          className="absolute -top-24 -right-24 w-96 h-96 rounded-full opacity-30"
+          style={{ background: "radial-gradient(circle, #a78bfa, transparent)" }}
+        />
+        <div
+          className="absolute -bottom-24 -left-24 w-80 h-80 rounded-full opacity-20"
+          style={{ background: "radial-gradient(circle, #818cf8, transparent)" }}
+        />
       </div>
 
-      {/* LOGIN PAGE label */}
-      <div className="absolute top-8 left-8 bg-[#00004d] text-white px-5 py-2 rounded-full shadow-lg" style={{ fontSize: '13px', fontWeight: '700' }}>
+      {/* LOGIN PAGE badge */}
+      <div
+        className="absolute top-8 left-8 bg-[#00004d] text-white px-5 py-2 rounded-full shadow-lg z-20"
+        style={{ fontSize: "13px", fontWeight: "700" }}
+      >
         LOGIN PAGE
       </div>
 
-      {/* Login Card */}
-      <div className="w-full max-w-md px-6 relative z-10">
+      {/* Card */}
+      <div className="w-full max-w-sm relative z-10 px-4">
         <div className="bg-[#00004d] rounded-3xl px-10 py-12 shadow-2xl">
+
+          {/* Header */}
           <div className="text-center mb-8">
-            <h1 className="text-white mb-2" style={{ fontSize: '24px', fontWeight: '700', letterSpacing: '0.5px' }}>
+            <h1 className="text-white mb-1" style={{ fontSize: "26px", fontWeight: "700" }}>
               Welcome!
             </h1>
-            <p className="text-white opacity-80" style={{ fontSize: '14px', fontWeight: '400' }}>
-              Login to your account
+            <p className="text-white/60" style={{ fontSize: "14px" }}>
+              Sign in to your account
             </p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-5">
-            <div>
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="space-y-3">
               <input
-                id="username"
                 type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                placeholder="Email/Username"
-                className="w-full rounded-lg px-4 py-2.5 outline-none text-sm bg-white shadow-sm border-2 border-transparent focus:border-blue-400 transition-colors"
-                style={{ fontWeight: '400' }}
+                placeholder="Username"
+                className={inputClass}
                 required
               />
-            </div>
-
-            <div>
               <input
-                id="password"
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Password"
-                className="w-full rounded-lg px-4 py-2.5 outline-none text-sm bg-white shadow-sm border-2 border-transparent focus:border-blue-400 transition-colors"
-                style={{ fontWeight: '400' }}
+                className={inputClass}
                 required
               />
             </div>
 
+            {/* Submit */}
             <button
               type="submit"
-              className="w-full bg-white text-[#00004d] rounded-lg px-6 py-2.5 hover:bg-gray-100 transition-all shadow-md"
-              style={{ fontWeight: '700', fontSize: '14px' }}
+              className="w-full rounded-xl px-6 py-3 transition-all shadow-lg hover:shadow-xl hover:scale-[1.01] active:scale-[0.99]"
+              style={{
+                background: "linear-gradient(135deg, #7c3aed, #4f46e5)",
+                color: "white",
+                fontWeight: "700",
+                fontSize: "15px",
+              }}
             >
               Login
             </button>
 
             <div className="text-center">
-              <p className="text-white text-sm">
-                Don't have an account?{' '}
+              <p className="text-white/60 text-sm">
+                Don't have an account?{" "}
                 <button
                   type="button"
                   onClick={onSignUpClick}
-                  className="hover:underline"
-                  style={{ fontWeight: '600' }}
+                  className="text-white hover:underline"
+                  style={{ fontWeight: "600" }}
                 >
                   Sign up
                 </button>

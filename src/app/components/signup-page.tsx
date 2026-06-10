@@ -1,15 +1,20 @@
 import { useState } from "react";
 
-
 interface SignupPageProps {
   onBackToLogin: () => void;
   onAccountCreated: () => void;
 }
 
+const inputClass =
+  "w-full rounded-xl px-4 py-3 outline-none text-sm bg-white/10 text-white placeholder-white/50 border border-white/20 focus:border-white/60 focus:bg-white/15 transition-all";
+
 export function SignupPage({ onBackToLogin, onAccountCreated }: SignupPageProps) {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [username, setUsername] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [address, setAddress] = useState("");
+  const [birthday, setBirthday] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
@@ -17,134 +22,118 @@ export function SignupPage({ onBackToLogin, onAccountCreated }: SignupPageProps)
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-
     if (password !== confirmPassword) {
       setError("Passwords do not match!");
       return;
     }
-
-    console.log("Sign up submitted:", { firstName, lastName, username, password, confirmPassword });
+    console.log("Sign up submitted:", { firstName, lastName, username, phoneNumber, address, birthday, password });
     onAccountCreated();
   };
 
   return (
-    <div className="size-full flex items-center justify-center relative overflow-hidden" style={{ backgroundColor: '#d4d4e8' }}>
-      {/* Decorative curved lines */}
+    <div
+      className="min-h-screen w-full flex items-center justify-center relative overflow-auto py-10 px-4"
+      style={{ backgroundColor: "#d4d4e8" }}
+    >
+      {/* Decorative blobs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <svg className="absolute top-0 right-0 w-64 h-64 translate-x-20 -translate-y-20" viewBox="0 0 200 200">
-          <path d="M 0,100 Q 50,50 100,100 T 200,100" fill="none" stroke="rgba(255,255,255,0.3)" strokeWidth="1" />
-        </svg>
-        <svg className="absolute bottom-0 left-0 w-96 h-96 -translate-x-32 translate-y-32" viewBox="0 0 200 200">
-          <circle cx="100" cy="100" r="80" fill="none" stroke="rgba(255,255,255,0.2)" strokeWidth="2" />
-        </svg>
+        <div className="absolute -top-24 -right-24 w-96 h-96 rounded-full opacity-30" style={{ background: "radial-gradient(circle, #a78bfa, transparent)" }} />
+        <div className="absolute -bottom-24 -left-24 w-80 h-80 rounded-full opacity-20" style={{ background: "radial-gradient(circle, #818cf8, transparent)" }} />
       </div>
 
-      {/* SIGN UP label */}
-      <div className="absolute top-8 left-8 bg-[#00004d] text-white px-5 py-2 rounded-full shadow-lg" style={{ fontSize: '13px', fontWeight: '700' }}>
+      {/* SIGN UP badge */}
+      <div
+        className="absolute top-8 left-8 bg-[#00004d] text-white px-5 py-2 rounded-full shadow-lg z-20"
+        style={{ fontSize: "13px", fontWeight: "700" }}
+      >
         SIGN UP
       </div>
 
-      {/* Sign Up Card */}
-      <div className="w-full max-w-md px-6 relative z-10">
-        <div className="bg-[#00004d] rounded-3xl px-10 py-10 shadow-2xl">
-          <div className="text-center mb-8">
-            <h1 className="text-white mb-2" style={{ fontSize: '24px', fontWeight: '700', letterSpacing: '0.5px' }}>
+      {/* Card */}
+      <div className="w-full max-w-md relative z-10">
+        <div className="bg-[#00004d] rounded-3xl px-8 py-7 shadow-2xl">
+
+          {/* Header */}
+          <div className="text-center mb-5">
+            <h1 className="text-white mb-0.5" style={{ fontSize: "22px", fontWeight: "700" }}>
               Create Account
             </h1>
-            <p className="text-white opacity-80" style={{ fontSize: '14px', fontWeight: '400' }}>
-              Sign up to get started
+            <p className="text-white/60" style={{ fontSize: "13px" }}>
+              Fill in your details to get started
             </p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             {error && (
-              <div className="bg-red-500 text-white px-4 py-2 rounded-lg text-sm text-center" style={{ fontWeight: '600' }}>
+              <div className="bg-red-500/20 border border-red-400/40 text-red-200 px-3 py-2 rounded-xl text-xs text-center" style={{ fontWeight: "600" }}>
                 {error}
               </div>
             )}
 
+            {/* Personal Info */}
             <div>
-              <input
-                id="firstName"
-                type="text"
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
-                placeholder="First Name"
-                className="w-full rounded-lg px-4 py-2.5 outline-none text-sm bg-white shadow-sm border-2 border-transparent focus:border-blue-400 transition-colors"
-                style={{ fontWeight: '400' }}
-                required
-              />
+              <p className="text-white/40 uppercase mb-2" style={{ fontSize: "10px", fontWeight: "700", letterSpacing: "1.2px" }}>
+                Personal Info
+              </p>
+              <div className="grid grid-cols-2 gap-2">
+                <input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} placeholder="First Name" className={inputClass} required />
+                <input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} placeholder="Last Name" className={inputClass} required />
+              </div>
+              <div className="mt-2">
+                <input
+                  type="date"
+                  value={birthday}
+                  onChange={(e) => setBirthday(e.target.value)}
+                  className={inputClass}
+                  style={{ colorScheme: "dark" }}
+                  title="Birthday"
+                  required
+                />
+                {!birthday && <p className="text-white/40 mt-1 ml-1" style={{ fontSize: "10px" }}>Date of Birth</p>}
+              </div>
             </div>
 
+            {/* Contact */}
             <div>
-              <input
-                id="lastName"
-                type="text"
-                value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
-                placeholder="Last Name"
-                className="w-full rounded-lg px-4 py-2.5 outline-none text-sm bg-white shadow-sm border-2 border-transparent focus:border-blue-400 transition-colors"
-                style={{ fontWeight: '400' }}
-                required
-              />
+              <p className="text-white/40 uppercase mb-2" style={{ fontSize: "10px", fontWeight: "700", letterSpacing: "1.2px" }}>
+                Contact
+              </p>
+              <div className="grid grid-cols-2 gap-2">
+                <input type="tel" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} placeholder="Phone Number" className={inputClass} required />
+                <input type="text" value={address} onChange={(e) => setAddress(e.target.value)} placeholder="Address" className={inputClass} required />
+              </div>
             </div>
 
+            {/* Account */}
             <div>
-              <input
-                id="username"
-                type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                placeholder="Email/Username"
-                className="w-full rounded-lg px-4 py-2.5 outline-none text-sm bg-white shadow-sm border-2 border-transparent focus:border-blue-400 transition-colors"
-                style={{ fontWeight: '400' }}
-                required
-              />
+              <p className="text-white/40 uppercase mb-2" style={{ fontSize: "10px", fontWeight: "700", letterSpacing: "1.2px" }}>
+                Account
+              </p>
+              <div className="space-y-2">
+                <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Email/Username" className={inputClass} required />
+                <div className="grid grid-cols-2 gap-2">
+                  <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" className={inputClass} required />
+                  <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} placeholder="Confirm" className={inputClass} required />
+                </div>
+                {password && confirmPassword && password !== confirmPassword && (
+                  <p className="text-red-300 ml-1" style={{ fontSize: "11px" }}>Passwords don't match</p>
+                )}
+              </div>
             </div>
 
-            <div>
-              <input
-                id="password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Password"
-                className="w-full rounded-lg px-4 py-2.5 outline-none text-sm bg-white shadow-sm border-2 border-transparent focus:border-blue-400 transition-colors"
-                style={{ fontWeight: '400' }}
-                required
-              />
-            </div>
-
-            <div>
-              <input
-                id="confirmPassword"
-                type="password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                placeholder="Confirm Password"
-                className="w-full rounded-lg px-4 py-2.5 outline-none text-sm bg-white shadow-sm border-2 border-transparent focus:border-blue-400 transition-colors"
-                style={{ fontWeight: '400' }}
-                required
-              />
-            </div>
-
+            {/* Submit */}
             <button
               type="submit"
-              className="w-full bg-white text-[#00004d] rounded-lg px-6 py-2.5 hover:bg-gray-100 transition-all shadow-md mt-6"
-              style={{ fontWeight: '700', fontSize: '14px' }}
+              className="w-full rounded-xl px-6 py-2.5 transition-all shadow-lg hover:shadow-xl hover:scale-[1.01] active:scale-[0.99]"
+              style={{ background: "linear-gradient(135deg, #7c3aed, #4f46e5)", color: "white", fontWeight: "700", fontSize: "14px" }}
             >
               Create Account
             </button>
 
             <div className="text-center">
-              <p className="text-white text-sm">
-                Already have an account?{' '}
-                <button
-                  type="button"
-                  onClick={onBackToLogin}
-                  className="hover:underline"
-                  style={{ fontWeight: '600' }}
-                >
+              <p className="text-white/60" style={{ fontSize: "13px" }}>
+                Already have an account?{" "}
+                <button type="button" onClick={onBackToLogin} className="text-white hover:underline" style={{ fontWeight: "600" }}>
                   Log in
                 </button>
               </p>
